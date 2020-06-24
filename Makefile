@@ -19,7 +19,7 @@ check-memory: run
 	@echo "Profiling memory usage..."
 
 ci-job:
-	pytest -n 0 --cov=metaworld -v -m 'not large'
+	pytest -n 0 --cov=metaworld -v -m 'not large and not deprecated'
 	coverage xml
 	# bash <(curl -s https://codecov.io/bash)
 
