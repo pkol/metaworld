@@ -6,25 +6,24 @@ See/modify `char_to_action` to set the key-to-action mapping.
 """
 import sys
 import gym
-
 import numpy as np
 
-from metaworld.envs.mujoco.sawyer_xyz.sawyer_door_hook import SawyerDoorHookEnv
+#from metaworld.envs.mujoco.sawyer_xyz.sawyer_door_hook import SawyerDoorHookEnv
 from metaworld.envs.mujoco.sawyer_xyz.sawyer_door import SawyerDoorEnv
 
-from metaworld.envs.mujoco.sawyer_xyz.sawyer_pick_and_place import \
-    SawyerPickAndPlaceEnv
-from metaworld.envs.mujoco.sawyer_xyz.sawyer_push_and_reach_env import \
-    SawyerPushAndReachXYEnv, SawyerPushAndReachXYZEnv
-from metaworld.envs.mujoco.sawyer_xyz.sawyer_push_and_reach_env_two_pucks import (
-    SawyerPushAndReachXYDoublePuckEnv,
-    SawyerPushAndReachXYZDoublePuckEnv,
-)
+#from metaworld.envs.mujoco.sawyer_xyz.sawyer_pick_and_place import \
+#    SawyerPickAndPlaceEnv
+#from metaworld.envs.mujoco.sawyer_xyz.sawyer_push_and_reach_env import \
+#    SawyerPushAndReachXYEnv, SawyerPushAndReachXYZEnv
+#from metaworld.envs.mujoco.sawyer_xyz.sawyer_push_and_reach_env_two_pucks import (
+#    SawyerPushAndReachXYDoublePuckEnv,
+#    SawyerPushAndReachXYZDoublePuckEnv,
+#)
 
-from metaworld.envs.mujoco.sawyer_xyz.sawyer_reach import SawyerReachXYEnv, \
-    SawyerReachXYZEnv
+#from metaworld.envs.mujoco.sawyer_xyz.sawyer_reach import SawyerReachXYEnv, \
+#    SawyerReachXYZEnv
 
-from metaworld.envs.mujoco.sawyer_xyz.sawyer_throw import SawyerThrowEnv
+#from metaworld.envs.mujoco.sawyer_xyz.sawyer_throw import SawyerThrowEnv
 from metaworld.envs.mujoco.sawyer_xyz.sawyer_hand_insert import SawyerHandInsertEnv
 from metaworld.envs.mujoco.sawyer_xyz.sawyer_sweep_into_goal import SawyerSweepIntoGoalEnv
 
@@ -36,6 +35,7 @@ import pygame
 from pygame.locals import QUIT, KEYDOWN
 
 pygame.init()
+pygame.key.set_repeat(100,30)
 screen = pygame.display.set_mode((400, 300))
 
 
@@ -76,7 +76,8 @@ import pygame
 # )
 # env = SawyerSweepEnv()
 # env = SawyerSweepIntoGoalEnv()
-env = SawyerBoxCloseEnv(random_init=True)
+env = SawyerDoorEnv(random_init=True)
+env.max_path_length=1_000_000
 NDIM = env.action_space.low.size
 lock_action = False
 random_action = False
@@ -109,7 +110,7 @@ while True:
                 elif new_action is not None:
                     action[:3] = new_action[:3]
                 else:
-                    action = np.zeros(3)
+                    action = np.zeros(4)
                 print(action)
     else:
         action = env.action_space.sample()
